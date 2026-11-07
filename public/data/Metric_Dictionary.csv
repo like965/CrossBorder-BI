@@ -1,0 +1,15 @@
+﻿指标名称,计算逻辑,业务定义,单位
+净销售额,SUM(NetSalesUSD),折前销售额减折扣。「销售额」默认指本指标；金额一律取事实表金额字段,USD
+毛利润,SUM(GrossProfitUSD),净销售额减商品成本减物流成本减平台费用。事实表该列已扣完三项成本；不得重复扣减,USD
+毛利率,SUM(GrossProfitUSD)/SUM(NetSalesUSD),聚合后相除。底层为0-1小数（如0.4387）；展示时格式化为百分比并保留1位小数（43.9%）；禁止对行级比率求平均,%
+订单量,DISTINCTCOUNT(OrderID),按订单号去重。不能用订单商品行数；筛选变化后重新去重；不对分组结果求和,单
+销售件数,SUM(Quantity),销售商品数量,件
+客单价,SUM(NetSalesUSD)/DISTINCTCOUNT(OrderID),当前筛选下的净销售额除以去重订单量。不对分组结果求平均,USD
+折扣率,SUM(DiscountUSD)/SUM(GrossSalesUSD),聚合后相除。底层为0-1小数（如0.0600）；展示时格式化为百分比并保留1位小数（6.0%）；分母是折前销售额而非目录价金额,%
+折前销售额,SUM(GrossSalesUSD),订单商品行实际成交金额（折扣前）。不得用 DimProduct.ListPriceUSD 乘 Quantity 重算,USD
+折扣,SUM(DiscountUSD),行级折扣金额合计；可为0,USD
+商品成本,SUM(COGSUSD),行级商品成本合计。等于 SUM(Quantity 乘 DimProduct.UnitCostUSD),USD
+物流成本,SUM(ShippingCostUSD),按商品行计费并汇总；不是按订单计费,USD
+平台费用,SUM(PlatformFeeUSD),按商品行计费并汇总,USD
+总成本,SUM(COGSUSD)+SUM(ShippingCostUSD)+SUM(PlatformFeeUSD),三项成本合计；仅用于成本结构展示；不可再从毛利润中二次扣减,USD
+参考目录价（字段说明）,不参与指标计算（DimProduct.ListPriceUSD）,仅为产品参考目录价。实际成交单价在其0.92至1.08倍之间浮动；禁止用于重算折前销售额、净销售额或毛利润,USD

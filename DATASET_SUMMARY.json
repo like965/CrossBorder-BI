@@ -1,0 +1,17 @@
+{
+  "FactSales_rows": 6243,
+  "unique_orders": 4200,
+  "date_range": [
+    "2025-01-01",
+    "2025-12-31"
+  ],
+  "currency": "USD",
+  "fictional": true,
+  "tables": {
+    "FactSales.csv": 6243,
+    "DimDate.csv": 365,
+    "DimProduct.csv": 12,
+    "DimChannel.csv": 4,
+    "DimCountry.csv": 5
+  }
+}
